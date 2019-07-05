@@ -2,23 +2,25 @@ package model
 
 import "encoding/json"
 
-//UserPrefix avoids double meaning
-const UserPrefix = "USER"
+//CardholderPrefix avoids double meaning
+const CardholderPrefix = "USER"
 
 //Cardholder defines a credit card owner
 type Cardholder struct {
-	Type      string `json:"type"`
+	DocType   string `json:"docType"`
 	CPF       string `json:"cpf"`
 	Name      string `json:"name"`
+	Gender    string `json:"gender"`
 	Birthdate string `json:"birthdate"`
 }
 
 //NewCardholder returns a Cardholder instance
-func NewCardholder(cpf string, name string, birthdate string) *Cardholder {
+func NewCardholder(cpf string, name string, gender string, birthdate string) *Cardholder {
 	return &Cardholder{
-		Type:      UserPrefix,
+		DocType:   CardholderPrefix,
 		CPF:       cpf,
 		Name:      name,
+		Gender:    gender,
 		Birthdate: birthdate,
 	}
 }
