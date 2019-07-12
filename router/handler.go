@@ -6,7 +6,7 @@ import (
 )
 
 //Handler defines a Hyperledger Fabric basic type function
-type Handler func() peer.Response
+type Handler func(stub shim.ChaincodeStubInterface) peer.Response
 
 //Router handles all Chaincode methods via Invoke
 type Router struct {
@@ -29,5 +29,10 @@ func (r *Router) Handle(method string, handler Handler) *Router {
 
 //Invoke returns a Chaincode method based on it's initial name
 func (r *Router) Invoke(method string, stub shim.ChaincodeStubInterface) peer.Response {
+	f, ok := r.routes[method]
+	if !ok {
+		//throw some error
+	}
 
+	return f(stub)
 }

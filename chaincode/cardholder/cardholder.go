@@ -17,8 +17,9 @@ func NewCardholderChaincode(logger *shim.ChaincodeLogger) *CardholderChaincode {
 	chaincode := &CardholderChaincode{
 		logger: logger,
 	}
-	chaincode.router.Handle("CreateUser", chaincode.CreateUser).
-		Handle("GetUset", chaincode.GetUser)
+	chaincode.router = router.NewRouter().
+		Handle("CreateUser", chaincode.CreateUser).
+		Handle("GetUser", chaincode.GetUser)
 
 	return chaincode
 }
@@ -28,12 +29,17 @@ func (c *CardholderChaincode) Init(stub shim.ChaincodeStubInterface) peer.Respon
 	return shim.Success(nil)
 }
 
-//CreateUser initiates a basic user defined in model
-func CreateUser(stub shim.ChaincodeStubInterface) peer.Response {
-	//TODO
+//Invoke calls a chaincode method
+func (c *CardholderChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
+	fn, _ := stub.GetFunctionAndParameters()
+	return c.router.Invoke(fn, stub)
 }
 
-//GetUser returns a user based on it's CPF
-func GetUser(stub shim.ChaincodeStubInterface) peer.Response {
-	//TODO
+// CreateUser initiates a basic user defined in model
+func (c *CardholderChaincode) CreateUser(stub shim.ChaincodeStubInterface) peer.Response {
+
+}
+
+// GetUser returns a user based on it's CPF
+func (c *CardholderChaincode) GetUser(stub shim.ChaincodeStubInterface) peer.Response {
 }
